@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
-use App\Mail\WeeklyCompaniesUpdate;
+use App\Company;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 
 class EmployeeController extends Controller
@@ -29,8 +28,12 @@ class EmployeeController extends Controller
     public function create()
     {
         //
+        return view('employee.form', [
+            'action' => '/employees',
+            'method' => 'POST'
+        ]);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -40,6 +43,17 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         //
+        $company = Company::firstWhere('name', $request->input('companyName'));
+
+        $employee = new Employee();
+        $employee->firstName = $request->input('firstName');
+        $employee->lastName = $request->input('lastName');
+        $employee->email = $request->input('email');
+        $employee->phone = $request->input('phone');
+
+        $company->employees()->save($employee);
+
+        return 'Employee Created Successfully';
     }
 
     /**
@@ -53,7 +67,7 @@ class EmployeeController extends Controller
         //
         return $employee;
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -63,8 +77,18 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         //
+        return view('employee.form', [
+            'action' => '/employees/'.$employee->id,
+            'method' => 'PUT',
+            'firstName' => $employee->firstName,
+            'lastName' => $employee->lastName,
+            'lastName' => $employee->lastName,
+            'email' => $employee->email,
+            'phone' => $employee->phone,
+            'companyName' => $employee->company->name,
+        ]);
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -75,8 +99,19 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         //
+        $company = Company::firstWhere('name', $request->input('companyName'));
+
+        $employee->firstName = $request->input('firstName');
+        $employee->lastName = $request->input('lastName');
+        $employee->email = $request->input('email');
+        $employee->phone = $request->input('phone');
+        $employee->company_id = $company->id;
+
+        $company->employees()->save($employee);
+
+        return 'Employee Updated Successfully';
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
