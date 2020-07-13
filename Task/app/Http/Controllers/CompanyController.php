@@ -17,7 +17,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        // TODO: create view
         return Company::all();
     }
 
@@ -56,7 +56,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        // TODO: create view
         return $company;
     }
 
@@ -69,6 +69,12 @@ class CompanyController extends Controller
     public function edit(Company $company)
     {
         //
+        return view('company.form', [
+            'action' => '/companies/'.$company->id,
+            'method' => 'PUT',
+            'name' => $company->name,
+            'email' => $company->email
+        ]);
     }
 
     /**
@@ -81,6 +87,10 @@ class CompanyController extends Controller
     public function update(Request $request, Company $company)
     {
         //
+        $company->name = $request->input('name');
+        $company->email = $request->input('email');
+        $company->save();
+        return 'Company Updated Successfully';
     }
 
     /**
