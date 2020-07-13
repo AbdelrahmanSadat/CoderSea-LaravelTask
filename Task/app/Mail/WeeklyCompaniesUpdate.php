@@ -33,7 +33,6 @@ class WeeklyCompaniesUpdate extends Mailable
     {
         // Since company was defined as a public property, it
         // can be used from the view
-        // TODO: add to env
         return 
         $this->from(env('MAILGUN_EMAIL'))
         ->view('emailTemplate');

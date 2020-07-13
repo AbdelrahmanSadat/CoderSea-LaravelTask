@@ -11,14 +11,17 @@ class NewCompany extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $testValue;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($testValue)
     {
         //
+        $this->testValue = $testValue;
     }
 
     /**
@@ -28,6 +31,8 @@ class NewCompany extends Mailable
      */
     public function build()
     {
-        return $this->view('emailTemplate');
+        return
+            $this->from(env('MAILGUN_EMAIL'))
+            ->view('emailTemplate');
     }
 }
