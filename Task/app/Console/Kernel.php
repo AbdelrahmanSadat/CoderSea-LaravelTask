@@ -4,6 +4,11 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WeeklyCompaniesUpdate;
+use App\Company;
+use Carbon\Carbon;
+
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +29,23 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+
+        $schedule->call(function () {
+
+            //find in db records created between now and 7 days ago
+            $now = Carbon::now();
+            $to = $now->toDateTimeString();
+            $from = $now->subWeek()->toDateTimeString();
+
+            $newCompanies = Company::whereBetween(
+                'created_at',
+                [$from, $to]
+            )
+            ->get();
+
+            Mail::to(env('MAIL_TO'))
+                ->send(new WeeklyCompaniesUpdate($newCompanies));
+        })->weekly();
     }
 
     /**
@@ -34,7 +55,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

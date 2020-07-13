@@ -50,7 +50,7 @@ class CompanyController extends Controller
         $company->name = $request->input('name');
         $company->email = $request->input('email');
         $company->save();
-        Mail::to(env('MAIL_TO'))->send(new NewCompany($company->name));
+        Mail::to(env('MAIL_TO'))->send(new NewCompany($company));
         return 'Company Added Successfully';
     }
 

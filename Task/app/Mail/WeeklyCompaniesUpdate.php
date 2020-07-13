@@ -11,17 +11,17 @@ class WeeklyCompaniesUpdate extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $testValue;
+    public $companies;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($testValue)
+    public function __construct($companies)
     {
         //
-        $this->testValue = $testValue;
+        $this->companies = $companies;
     }
 
     /**
@@ -35,6 +35,6 @@ class WeeklyCompaniesUpdate extends Mailable
         // can be used from the view
         return 
         $this->from(env('MAILGUN_EMAIL'))
-        ->view('emailTemplate');
+        ->view('email.weeklyCompaniesUpdate');
     }
 }
