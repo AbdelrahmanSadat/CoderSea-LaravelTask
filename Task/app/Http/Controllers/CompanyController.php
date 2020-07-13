@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Mail;
 
 class CompanyController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -70,7 +76,7 @@ class CompanyController extends Controller
     {
         //
         return view('company.form', [
-            'action' => '/companies/'.$company->id,
+            'action' => '/companies/' . $company->id,
             'method' => 'PUT',
             'name' => $company->name,
             'email' => $company->email

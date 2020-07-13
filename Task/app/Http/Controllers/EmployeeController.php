@@ -5,10 +5,17 @@ namespace App\Http\Controllers;
 use App\Employee;
 use App\Company;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Middleware\Authenticate;
 
 
 class EmployeeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -78,7 +85,7 @@ class EmployeeController extends Controller
     {
         //
         return view('employee.form', [
-            'action' => '/employees/'.$employee->id,
+            'action' => '/employees/' . $employee->id,
             'method' => 'PUT',
             'firstName' => $employee->firstName,
             'lastName' => $employee->lastName,
