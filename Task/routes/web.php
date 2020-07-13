@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route:: resource('employees', 'EmployeeController');
+Route::resource('employees', 'EmployeeController');
 Route::resource('companies', 'CompanyController');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
