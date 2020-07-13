@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Mail\NewCompany;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 
 class CompanyController extends Controller
 {
@@ -16,6 +18,7 @@ class CompanyController extends Controller
     public function index()
     {
         //
+        return Company::all();
     }
 
     /**
@@ -26,6 +29,7 @@ class CompanyController extends Controller
     public function create()
     {
         //
+        return view('company.form', ['action' => '/companies', 'method' => 'POST']);
     }
 
     /**
@@ -36,9 +40,12 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        
-        // $result = Mail::to('boushaalaa@gmail.com')->send(new NewCompany("TESTVALUE"));
-        // error_log($result);
+        $company = new Company();
+        $company->name = $request->input('name');
+        $company->email = $request->input('email');
+        $company->save();
+        Mail::to(env('MAIL_TO'))->send(new NewCompany($company->name));
+        return 'Company Added Successfully';
     }
 
     /**
