@@ -46,9 +46,15 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'logo' => 'dimensions:min_width=100,min_height=100',
+        ]);
+
+        $path = $request->file('logo')->store('public');
         $company = new Company();
         $company->name = $request->input('name');
         $company->email = $request->input('email');
+        $company->logo = $path;
         $company->save();
         Mail::to(env('MAIL_TO'))->send(new NewCompany($company));
         return 'Company Added Successfully';

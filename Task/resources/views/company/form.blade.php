@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <form method='POST' action="{{$action}}">
+    <form method='POST' action="{{$action}}" enctype="multipart/form-data">
         @method($method??'POST')
         <div class="container">
             @csrf
@@ -19,10 +19,16 @@
                 <input type="text" name="name" class="form-control" id="name" value="{{$name??''}}">
             </div>
             <div class="form-group">
-                <label for="name">Email</label>
-                <input type="email" name="email" class="form-control" id="name" value="{{$email??''}}">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" id="email" value="{{$email??''}}">
             </div>
-            <!-- TODO: LOGO -->
+            <div class="col-md-6">
+                <label for="logo">Logo (100x100 minimum)</label>
+                <input type="file" id="logo" name="logo" class="form-control">
+            </div>
+            @error('logo')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     </div>

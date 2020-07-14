@@ -17,7 +17,6 @@ class CreateCompaniesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            // TODO?: path to logo?
             $table->string('logo');
             $table->timestamps();
         });
