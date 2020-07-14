@@ -24,7 +24,7 @@ class EmployeeController extends Controller
     public function index()
     {
         //
-        return Employee::all();
+        return Employee::paginate(10);
     }
 
     /**
