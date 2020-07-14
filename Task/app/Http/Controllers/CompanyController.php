@@ -23,7 +23,6 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        // TODO: create view
         return Company::paginate(10);
     }
 
@@ -68,7 +67,6 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        // TODO: create view
         return $company;
     }
 

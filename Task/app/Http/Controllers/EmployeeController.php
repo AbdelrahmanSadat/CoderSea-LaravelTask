@@ -23,7 +23,6 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
         return Employee::paginate(10);
     }
 
@@ -71,7 +70,6 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
         return $employee;
     }
 
